@@ -1,0 +1,5 @@
+{
+  "name": "Magic Chess Opponent Predictor",
+  "description": "An application to predict your next opponent in Magic Chess GOGO S3 based on a recurring 7-round pattern. Track your matches and let the app calculate your next foe.",
+  "requestFramePermissions": []
+}
