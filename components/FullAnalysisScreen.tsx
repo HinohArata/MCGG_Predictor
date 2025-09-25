@@ -19,12 +19,10 @@ const FullAnalysisScreen: React.FC<FullAnalysisScreenProps> = ({ players, curren
   }, [currentRound]);
 
   const pairedPlayerIds = useMemo(() => {
-    const paired = new Set<number>();
-    Object.values(matchups).forEach(val => {
-        if(val) paired.add(val);
-    });
-    Object.keys(matchups).forEach(key => paired.add(Number(key)));
-    return paired;
+    // FIX: The original logic was redundant and was likely causing a type inference issue.
+    // Since matchups are added symmetrically, Object.keys already contains all paired player IDs.
+    // This simplified version creates a Set of paired player IDs from the keys of the matchups object.
+    return new Set(Object.keys(matchups).map(id => Number(id)));
   }, [matchups]);
 
   const unpairedPlayers = useMemo(() => players.filter(p => !pairedPlayerIds.has(p.id)), [players, pairedPlayerIds]);

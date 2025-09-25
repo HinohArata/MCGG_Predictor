@@ -69,21 +69,13 @@ const GameScreen: React.FC<GameScreenProps> = ({ players, currentRound, history,
     const cycleStartRound = Math.floor((currentRound - 1) / 7) * 7;
     let keyPlayerId: number | null | undefined = null;
 
-    switch (effectiveRound) {
-        case 2:
-        case 4:
-        case 6: {
-            const r1EquivalentRound = cycleStartRound + 1;
-            keyPlayerId = history.find(h => h.round === r1EquivalentRound)?.myOpponentId;
-            break;
-        }
-        case 5: {
-            const r3EquivalentRound = cycleStartRound + 3;
-            keyPlayerId = history.find(h => h.round === r3EquivalentRound)?.myOpponentId;
-            break;
-        }
-        default:
-            return null;
+    // Based on the new prediction logic, we need the matchup of our R1 opponent
+    // in rounds 2, 3, and 4 for future predictions (R6, R7, and R5 respectively).
+    if ([2, 3, 4].includes(effectiveRound)) {
+        const r1EquivalentRound = cycleStartRound + 1;
+        keyPlayerId = history.find(h => h.round === r1EquivalentRound)?.myOpponentId;
+    } else {
+        return null;
     }
 
     if (!keyPlayerId) return null;
